@@ -59,18 +59,31 @@ class Game:
 
     # ---------------- 입력 ----------------
     def handle_events(self):
+        """키 입력과 적 생성 타이머를 처리한다."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            elif self.on_title:
-                self.handle_title_event(event)  # 시작 화면 입력은 여기서만 처리
-            elif event.type == SPAWN_ENEMY and not self.game_over:
-                enemy = Enemy()
-                self.enemies.add(enemy)
-                self.all_sprites.add(enemy)
-            elif event.type == pygame.KEYDOWN:
+
+            # 1. 시작 화면인 경우 전용 이벤트 처리기 호출
+            if self.on_title:
+                self.handle_title_event(event)
+                continue
+
+            # 2. 게임 진행 중 이벤트 처리
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.running = False
+                # TODO (F2): 스페이스바를 누르면 총알 발사 (게임 오버 중이 아닐 때만)
+                elif event.key == pygame.K_SPACE and not self.game_over:
+                    bullet = self.player.shoot()
+                    if bullet:
+                        self.bullets.add(bullet)
+                        self.all_sprites.add(bullet)
+                # TODO(F5): 게임 오버 상태에서 R 키를 누르면 self.reset() 으로 새 판을 시작할 것.
+
+            elif event.type == SPAWN_ENEMY and not self.game_over:
+                self.enemies.add(Enemy())
+                self.all_sprites.add(Enemy())
                 # TODO(F2): 스페이스 키를 누르면 self.player.shoot() 으로 총알을 만들어
                 #           self.bullets 와 self.all_sprites 두 그룹에 넣을 것. (게임 오버 중에는 쏘지 않게)
                 # TODO(F5): 게임 오버 상태에서 R 키를 누르면 self.reset() 으로 새 판을 시작할 것.

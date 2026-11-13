@@ -82,8 +82,9 @@ class Game:
                 # TODO(F5): 게임 오버 상태에서 R 키를 누르면 self.reset() 으로 새 판을 시작할 것.
 
             elif event.type == SPAWN_ENEMY and not self.game_over:
-                self.enemies.add(Enemy())
-                self.all_sprites.add(Enemy())
+                enemy = Enemy()
+                self.enemies.add(enemy)
+                self.all_sprites.add(enemy)
                 # TODO(F2): 스페이스 키를 누르면 self.player.shoot() 으로 총알을 만들어
                 #           self.bullets 와 self.all_sprites 두 그룹에 넣을 것. (게임 오버 중에는 쏘지 않게)
                 # TODO(F5): 게임 오버 상태에서 R 키를 누르면 self.reset() 으로 새 판을 시작할 것.
@@ -112,7 +113,9 @@ class Game:
 
         # TODO(F3): 총알과 적이 부딪히면 둘 다 없애고, 맞힌 적 하나당 SCORE_PER_ENEMY 점을 더할 것.
         #           힌트: pygame.sprite.groupcollide
-
+        hits = pygame.sprite.groupcollide(self.enemies, self.bullets, True, True)
+        if hits:
+            self.score += len(hits) * SCORE_PER_ENEMY
         # TODO(F4): 적이 플레이어에 닿으면 그 적을 없애고 생명(self.lives)을 1 줄일 것.
         #           힌트: pygame.sprite.spritecollide
 
@@ -147,6 +150,7 @@ class Game:
         self.screen.blit(self.hud_shade, (0, 0))  # 점수·생명 글자 뒤 어두운 띠
         self.draw_text(f"LIVES: {self.lives}", self.font, WHITE, topright=(WIDTH - 10, 10))
         # TODO(F3): 화면 왼쪽 위에 현재 점수를 "SCORE: 120" 형태로 표시할 것.
+        self.draw_text(f"score: {self.score}", self.font, WHITE, topleft=(10, 10))
         if self.game_over:
             self.draw_game_over()
         pygame.display.flip()

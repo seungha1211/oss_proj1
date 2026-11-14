@@ -13,4 +13,10 @@ AI 를 전혀 쓰지 않았다면 표를 지우고 "이 과제에서 생성형 A
 
 | 날짜 | 도구 | 관련 기능 | 무엇을 물었나 | 결과를 어떻게 반영/수정했나 |
 |---|---|---|---|---|
-| 예시 2026-01-01 | ChatGPT | F1 | 방향키를 누르고 있는 동안 계속 움직이게 하는 방법 | `pygame.key.get_pressed()` 사용법만 참고, 화면 경계 처리는 직접 작성 |
+| 2026-11-11 | Gemini | 기타 | 기능별 브랜치 생성, 커밋 컨벤션 및 `--no-ff` 병합 절차 문의 | 안내받은 Git 워크플로우를 기준으로 로컬에서 직접 브랜치 생성 및 커밋·병합 수행 |
+| 2026-11-11 | Gemini | F1 | `Player.update()` 내 방향키 이동 및 화면 밖 이탈 방지 처리 방법 | `pygame.key.get_pressed()`와 `rect.left`, `rect.right` 경계 제한 코드를 `entities.py`에 반영 후 테스트 |
+| 2026-11-11 | Gemini | F2 | `Player.shoot()`, `Bullet.update()` 구현 및 시작 화면(`on_title`)과 스페이스바 입력 분리 방법 | 제안받은 코드 적용 후 시작 화면 상태 분기(`self.on_title`) 및 적 생성 타이머 이벤트 처리를 스타터 코드 구조에 맞게 수정 반영 |
+| 2026-11-13 | Gemini | F3 | `pygame.sprite.groupcollide`를 활용한 총알-적 충돌 제거 및 점수 합산 방식 | 반환된 충돌 딕셔너리 길이를 이용해 점수를 누적하고 `draw_text`로 좌상단 `SCORE` 출력 코드 반영 |
+| 2026-11-13 | Gemini | F4 | 플레이어-적 충돌(`spritecollide`), 적 하단 이탈 시 생명 차감 및 게임 오버 화면 구현 | `LIVES` 차감 로직과 `draw_game_over`의 텍스트 배치 좌표를 화면 크기에 맞게 조정하여 반영 |
+| 2026-11-14 | Gemini | F5 | `highscore.txt` 최고 점수 파일 입출력 예외 처리 및 `R` 키 재시작 로직 구현 | `FileNotFoundError`, `ValueError` 예외 처리 구문과 `K_r` 입력 시 `self.reset()` 호출 코드를 반영 후 테스트 |
+| 2026-11-14 | Gemini | 기타 | 제출 전 `README.md` 체크리스트 정리 및 `.gitignore` 내 `highscore.txt` 제외 처리 확인 | 추천받은 형식을 참고하여 프로젝트 실행 및 구현 완료 내역에 맞게 문서 최종 정리 |
